@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DisplayUserPreference @Inject constructor(val context: Context): Preference{
+class DisplayUserPreference @Inject constructor(private val context: Context): Preference{
 
     companion object {
         const val PREFERENCE_NAME = "DISLAY_USER_NAME_PREFERENCE"

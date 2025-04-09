@@ -23,23 +23,22 @@ class DisplayUserNameViewModel @Inject constructor(
 
     // save username action
     fun saveUsername(username: String) {
-        // receives the username and save to prefernce
+        // receives the username and save to preference
         viewModelScope.launch {
             saveUsernameUseCase(username)
-            Log.e("user","see  savedUsername in viewmodel: - ${username}")
         }
     }
 
     // display username action
     fun displayUsername() {
         viewModelScope.launch {
+            val username = getUsernameUseCase()
             _displayUsername.update {
                 it.copy(
-                    username = getUsernameUseCase()
+                    username = username
                 )
 
             }
-            Log.e("user","see retrieved username in viewmodel: - ${getUsernameUseCase()}")
         }
     }
 }

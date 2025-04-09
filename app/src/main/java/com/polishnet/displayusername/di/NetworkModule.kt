@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     /**
-     * provide DisplayUserNamePreferenceDataStor
+     * provide DisplayUserNamePreferenceDataStore
      */
     @Provides
     @Singleton

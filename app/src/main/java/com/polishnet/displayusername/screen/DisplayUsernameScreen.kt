@@ -33,15 +33,14 @@ fun DisplayUsernameScreen(
     }
     val displayUsernameUIState by displayUserNameViewModel.displayUsername.collectAsStateWithLifecycle()
     var text by remember { mutableStateOf("") }
-//    var text = ""
-    var retrievedUsername  by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = retrievedUsername,
+            text = displayUsernameUIState.username?:"",
             style = TextStyle(
                 fontSize = 22.sp
             ),
@@ -61,7 +60,6 @@ fun DisplayUsernameScreen(
         Button(
             onClick = {
                 displayUserNameViewModel.saveUsername(text)
-                Log.e("user","see saved value: - ${text}")
             }
         ) {
             Text(
@@ -78,8 +76,6 @@ fun DisplayUsernameScreen(
         Button(
             onClick = {
                 displayUserNameViewModel.displayUsername()
-                retrievedUsername = displayUsernameUIState.username?:""
-                Log.e("user","see retrieved value: - ${retrievedUsername}")
             }
         ) {
             Text(
