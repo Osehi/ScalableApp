@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -41,6 +42,7 @@ fun DisplayUsernameScreen(
     var text by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember{SnackbarHostState()}
+    var isValid by remember { mutableStateOf(false) }
 
    Scaffold(
        snackbarHost = {
@@ -49,12 +51,12 @@ fun DisplayUsernameScreen(
 
    ) { paddingValues ->
        Column(
-           modifier = Modifier.padding(paddingValues = paddingValues),
+           modifier = Modifier
+               .fillMaxSize()
+               .padding(paddingValues = paddingValues),
            horizontalAlignment = Alignment.CenterHorizontally,
            verticalArrangement = Arrangement.Center
        ) {
-           Log.e("storage", "saved value is ${displayUsernameUIState.username?:""}")
-
            Text(
                text = displayUsernameUIState.username?:"",
                style = TextStyle(
@@ -67,19 +69,30 @@ fun DisplayUsernameScreen(
            )
            OutlinedTextField(
                value = text ,
-               onValueChange = {text = it},
-               label = { Text("Enter username") }
+               onValueChange = { input ->
+                   text = input
+                   isValid = input.isEmpty()
+                               },
+               label = { Text("Enter username") },
+               isError = text.isEmpty()
+
            )
            Spacer(
                modifier = Modifier.height(16.dp)
            )
            Button(
                onClick = {
-                   displayUserNameViewModel.saveUsername(text)
-                   scope.launch {
-                       snackbarHostState.showSnackbar("Usename is saved")
+                   if (!isValid) {
+                       displayUserNameViewModel.saveUsername(text)
+                       scope.launch {
+                           snackbarHostState.showSnackbar("Usename is saved")
+                       }
+                   } else {
+                       scope.launch {
+                           snackbarHostState.showSnackbar("Usename icannot be empty")
+                       }
                    }
-                   Log.e("storage", "saved value at ave button is ${text}")
+
                }
            ) {
                Text(
@@ -95,7 +108,15 @@ fun DisplayUsernameScreen(
            )
            Button(
                onClick = {
-                   displayUserNameViewModel.displayUsername()
+                   val hasSavedUsername = displayUsernameUIState.username?:""
+                   if (!hasSavedUsername.isEmpty()) {
+                       displayUserNameViewModel.displayUsername()
+                   } else {
+                       scope.launch {
+                           snackbarHostState.showSnackbar("No previous username saved; please enter a username")
+                       }
+                   }
+
                }
            ) {
                Text(
