@@ -39,6 +39,8 @@ fun DisplayUsernameScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Log.e("storage", "saved value is ${displayUsernameUIState.username?:""}")
+
         Text(
             text = displayUsernameUIState.username?:"",
             style = TextStyle(
@@ -60,6 +62,7 @@ fun DisplayUsernameScreen(
         Button(
             onClick = {
                 displayUserNameViewModel.saveUsername(text)
+                Log.e("storage", "saved value at ave button is ${text}")
             }
         ) {
             Text(

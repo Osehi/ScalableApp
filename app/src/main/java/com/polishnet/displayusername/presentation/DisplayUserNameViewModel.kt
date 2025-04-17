@@ -26,6 +26,7 @@ class DisplayUserNameViewModel @Inject constructor(
         // receives the username and save to preference
         viewModelScope.launch {
             saveUsernameUseCase(username)
+            Log.e("storage", "saved value in viewmodel is ${username}")
         }
     }
 
@@ -39,6 +40,7 @@ class DisplayUserNameViewModel @Inject constructor(
                 )
 
             }
+            Log.e("storage", "retrieved value in viewmodel is ${username}")
         }
     }
 }
