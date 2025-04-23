@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.polishnet.displayusername.data.DisplayUserNameRepositoryImpl
-import com.polishnet.displayusername.data.DisplayUserPreference
 import com.polishnet.displayusername.data.DisplayUsernamePreferenceLocalDataSource
 import com.polishnet.displayusername.data.Preference
 import com.polishnet.displayusername.data.PreferenceConstant.DATASTORE_NAME
@@ -43,16 +42,6 @@ object NetworkModule {
     @Singleton
     fun providesDisplayUsernamePreferenceLocalDataSource(dataStore: DataStore<Preferences>): Preference {
         return DisplayUsernamePreferenceLocalDataSource(dataStore)
-    }
-
-
-    /**
-     * provide DisplayUserNamePreferenceDataStore
-     */
-    @Provides
-    @Singleton
-    fun provideDisplayUsernamePreferenceDatastore(@ApplicationContext context: Context): Preference {
-        return DisplayUserPreference(context)
     }
 
     /**

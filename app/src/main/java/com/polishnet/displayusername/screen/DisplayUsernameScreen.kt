@@ -40,9 +40,7 @@ fun DisplayUsernameScreen(
 ) {
     val context = LocalContext.current
     val displayUsernameUIState by displayUserNameViewModel.displayUsername.collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
-        displayUserNameViewModel.displayUsername()
-    }
+
     var text by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember{SnackbarHostState()}
@@ -103,32 +101,6 @@ fun DisplayUsernameScreen(
            ) {
                Text(
                    text = "Save Username",
-                   style = TextStyle(
-                       fontSize = 22.sp
-                   ),
-                   fontWeight = FontWeight.Bold
-               )
-           }
-           Spacer(
-               modifier = Modifier.height(16.dp)
-           )
-           Button(
-               onClick = {
-                   val hasSavedUsername = displayUsernameUIState.username?:""
-                   Log.e("username", "see saved content:-  ${hasSavedUsername.isEmpty()}")
-                   Log.e("username", "see saved content actual:-  ${hasSavedUsername}")
-                   if (!hasSavedUsername.isEmpty()) {
-                       displayUserNameViewModel.displayUsername()
-                   } else {
-                       scope.launch {
-                           snackbarHostState.showSnackbar(context.getString(R.string.no_previous_username))
-                       }
-                   }
-
-               }
-           ) {
-               Text(
-                   text = "Display Username",
                    style = TextStyle(
                        fontSize = 22.sp
                    ),

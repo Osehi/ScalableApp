@@ -7,7 +7,10 @@ import com.polishnet.displayusername.domain.usecase.GetUsernameUseCase
 import com.polishnet.displayusername.domain.usecase.SaveUsernameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,9 +21,6 @@ class DisplayUserNameViewModel @Inject constructor(
     private val saveUsernameUseCase: SaveUsernameUseCase
 ): ViewModel() {
 
-    private var _displayUsername = MutableStateFlow(DisplayUsernameState(""))
-    val displayUsername: StateFlow<DisplayUsernameState> = _displayUsername
-
     // save username action
     fun saveUsername(username: String) {
         // receives the username and save to preference
@@ -30,17 +30,15 @@ class DisplayUserNameViewModel @Inject constructor(
         }
     }
 
-    // display username action
-    fun displayUsername() {
-        viewModelScope.launch {
-            val username = getUsernameUseCase()
-            _displayUsername.update {
-                it.copy(
-                    username = username
-                )
-
-            }
-            Log.e("storage", "retrieved value in viewmodel is ${username}")
+    // display username
+    val displayUsername: StateFlow<DisplayUsernameState> = getUsernameUseCase()
+        .map {
+            username -> DisplayUsernameState(username = username?: "")
         }
-    }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            DisplayUsernameState(username = "")
+        )
+
 }

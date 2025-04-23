@@ -1,6 +1,8 @@
 package com.polishnet.displayusername.domain
 
+import kotlinx.coroutines.flow.Flow
+
 interface DisplayUserNameRepository {
-    suspend fun getUsername(): String?
+    fun getUsername(): Flow<String?>
     suspend fun saveUsername(username: String)
 }
