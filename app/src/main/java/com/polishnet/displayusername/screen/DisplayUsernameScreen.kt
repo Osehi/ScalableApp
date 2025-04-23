@@ -22,12 +22,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.polishnet.displayusername.R
 import com.polishnet.displayusername.presentation.DisplayUserNameViewModel
 import kotlinx.coroutines.launch
 
@@ -35,14 +38,15 @@ import kotlinx.coroutines.launch
 fun DisplayUsernameScreen(
     displayUserNameViewModel: DisplayUserNameViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val displayUsernameUIState by displayUserNameViewModel.displayUsername.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         displayUserNameViewModel.displayUsername()
     }
-    val displayUsernameUIState by displayUserNameViewModel.displayUsername.collectAsStateWithLifecycle()
     var text by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember{SnackbarHostState()}
-    var isValid by remember { mutableStateOf(false) }
+    var isValid by remember { mutableStateOf(true) }
 
    Scaffold(
        snackbarHost = {
@@ -72,8 +76,9 @@ fun DisplayUsernameScreen(
                onValueChange = { input ->
                    text = input
                    isValid = input.isEmpty()
+                   Log.e("username", "see status of isvalid: in input field-  ${isValid} and ${input.isEmpty()}")
                                },
-               label = { Text("Enter username") },
+               label = { Text(stringResource(id =  R.string.enter_name)) },
                isError = text.isEmpty()
 
            )
@@ -82,14 +87,15 @@ fun DisplayUsernameScreen(
            )
            Button(
                onClick = {
+                   Log.e("username", "see status of isvalid:-  ${isValid}")
                    if (!isValid) {
                        displayUserNameViewModel.saveUsername(text)
                        scope.launch {
-                           snackbarHostState.showSnackbar("Usename is saved")
+                           snackbarHostState.showSnackbar(context.getString(R.string.username_saved))
                        }
                    } else {
                        scope.launch {
-                           snackbarHostState.showSnackbar("Usename icannot be empty")
+                           snackbarHostState.showSnackbar(context.getString(R.string.username_empty))
                        }
                    }
 
@@ -109,11 +115,13 @@ fun DisplayUsernameScreen(
            Button(
                onClick = {
                    val hasSavedUsername = displayUsernameUIState.username?:""
+                   Log.e("username", "see saved content:-  ${hasSavedUsername.isEmpty()}")
+                   Log.e("username", "see saved content actual:-  ${hasSavedUsername}")
                    if (!hasSavedUsername.isEmpty()) {
                        displayUserNameViewModel.displayUsername()
                    } else {
                        scope.launch {
-                           snackbarHostState.showSnackbar("No previous username saved; please enter a username")
+                           snackbarHostState.showSnackbar(context.getString(R.string.no_previous_username))
                        }
                    }
 
