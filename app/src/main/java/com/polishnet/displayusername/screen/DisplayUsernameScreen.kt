@@ -86,10 +86,14 @@ fun DisplayUsernameScreen(
            Button(
                onClick = {
                    Log.e("username", "see status of isvalid:-  ${isValid}")
-                   if (!isValid) {
+                   if (!isValid && text.length >= 12) {
                        displayUserNameViewModel.saveUsername(text)
                        scope.launch {
                            snackbarHostState.showSnackbar(context.getString(R.string.username_saved))
+                       }
+                   } else if (text.length < 12 && text.isNotEmpty()) {
+                       scope.launch {
+                           snackbarHostState.showSnackbar(context.getString(R.string.password_length))
                        }
                    } else {
                        scope.launch {

@@ -2,6 +2,7 @@
     <string name="app_name">DisplayUserName</string>
     <string name="enter_name">Enter username</string>
     <string name="username_saved">Usename is saved</string>
+    <string name="password_length">Password cannot be less than 12 characters</string>
     <string name="username_empty">Usename cannot be empty</string>
     <string name="no_previous_username">No previous username saved; please enter a username</string>
 </resources>
