@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -70,6 +71,7 @@ fun DisplayUsernameScreen(
                modifier = Modifier.height(16.dp)
            )
            OutlinedTextField(
+               modifier = Modifier.testTag("UsernameInput"),
                value = text ,
                onValueChange = { input ->
                    text = input
@@ -84,6 +86,7 @@ fun DisplayUsernameScreen(
                modifier = Modifier.height(16.dp)
            )
            Button(
+               modifier = Modifier.testTag("SaveButton"),
                onClick = {
                    Log.e("username", "see status of isvalid:-  ${isValid}")
                    if (!isValid && text.length >= 12) {

@@ -59,6 +59,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Test Dependencies | I have these dependencies
+//    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
+//    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
 // Preference Datastore
     implementation("androidx.datastore:datastore-preferences:1.1.4")
 // Coroutine
@@ -79,4 +83,5 @@ dependencies {
 // hilt navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
 }
