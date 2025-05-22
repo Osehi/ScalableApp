@@ -17,7 +17,9 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.polishnet.displayusername.HiltTestRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
     buildTypes {
@@ -42,6 +44,7 @@ android {
 }
 
 dependencies {
+    testImplementation(libs.hilt.android.testing)
     val lifecycle_version = "2.8.7"
 
     implementation(libs.androidx.core.ktx)
@@ -78,14 +81,20 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
 
     // dagger hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.56.2")
 // hilt navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Hilt testing
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.55")
-    kaptAndroidTest("com.google.dagger:hilt-compiler:2.55")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.56.2")
+    kaptAndroidTest("com.google.dagger:hilt-compiler:2.56.2")
+
+    // For instrumented tests.
+    // Hilt for instrumentation testing
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.56.2")
+    // ...with Kotlin.
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.56.2")
 
 }

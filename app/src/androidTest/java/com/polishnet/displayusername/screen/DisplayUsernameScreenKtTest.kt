@@ -3,8 +3,10 @@ package com.polishnet.displayusername.screen
 import androidx.compose.ui.test.MainTestClock
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.polishnet.displayusername.HiltTestActivity
 import com.polishnet.displayusername.MainActivity
 import com.polishnet.displayusername.di.NetworkModule
+import com.polishnet.displayusername.ui.theme.DisplayUserNameTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
@@ -20,7 +22,7 @@ class DisplayUsernameScreenKtTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get: Rule (order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule =  createAndroidComposeRule<HiltTestActivity>()
 
     @Before
     fun setup() {
@@ -32,7 +34,10 @@ class DisplayUsernameScreenKtTest {
     fun displayUsernameUI() {
         // start the App
         composeTestRule.setContent {
-            DisplayUsernameScreen()
+            DisplayUserNameTheme {
+                DisplayUsernameScreen()
+            }
+
         }
     }
 }
