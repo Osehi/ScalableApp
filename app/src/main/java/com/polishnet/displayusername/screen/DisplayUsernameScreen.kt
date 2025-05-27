@@ -61,6 +61,7 @@ fun DisplayUsernameScreen(
            verticalArrangement = Arrangement.Center
        ) {
            Text(
+               modifier = Modifier.testTag("DisplayUsername"),
                text = displayUsernameUIState.username?:"",
                style = TextStyle(
                    fontSize = 22.sp
