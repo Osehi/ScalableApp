@@ -1,0 +1,67 @@
+package com.polishnet.displayusername.screen
+
+import androidx.activity.ComponentActivity
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+
+@RunWith(AndroidJUnit4::class)
+class DisplayUsernameScreenKtTest {
+    // To Do
+    // To Test The UI
+    // Task => enter a username => cllick the saveButton to save => view the saved-username.
+
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+
+    @Before
+    fun luanchMyUI() {
+
+        composeTestRule.setContent {
+            var username by remember { mutableStateOf("") }
+            DisplayUsernameScreen(
+                username,
+                onClickSaveUsername = {username = it}
+            )
+        }
+    }
+
+    @Test
+    fun enterUsername_and_displaySavedUsername() {
+        val usernameInput = "Osehi"
+
+        // Enter username
+        composeTestRule
+            .onNodeWithTag("enter username")
+            .performTextInput(usernameInput)
+
+        // click save button
+        composeTestRule
+            .onNodeWithTag("SaveButton")
+            .performClick()
+
+        // check if save username is displayed
+        composeTestRule
+            .onNodeWithTag("DisplayUsername")
+            .assertTextEquals(usernameInput)
+            .assertIsDisplayed()
+
+    }
+    
+}

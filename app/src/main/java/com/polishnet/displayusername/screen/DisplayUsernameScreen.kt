@@ -14,7 +14,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,15 +32,27 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.polishnet.displayusername.R
 import com.polishnet.displayusername.presentation.DisplayUserNameViewModel
+import com.polishnet.displayusername.presentation.DisplayUsernameState
 import kotlinx.coroutines.launch
-
 @Composable
 fun DisplayUsernameScreen(
-    displayUserNameViewModel: DisplayUserNameViewModel = hiltViewModel()
+    displayUsernameViewModel: DisplayUserNameViewModel = hiltViewModel()
+) {
+    val displayUsernameUIState by displayUsernameViewModel.displayUsername.collectAsStateWithLifecycle()
+  DisplayUsernameScreen(
+      username =displayUsernameUIState.username?:"",
+      onClickSaveUsername = displayUsernameViewModel::saveUsername
+  )
+
+}
+
+
+@Composable
+internal fun DisplayUsernameScreen(
+    username: String,
+    onClickSaveUsername: (username: String) -> Unit
 ) {
     val context = LocalContext.current
-    val displayUsernameUIState by displayUserNameViewModel.displayUsername.collectAsStateWithLifecycle()
-
     var text by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember{SnackbarHostState()}
@@ -60,7 +72,8 @@ fun DisplayUsernameScreen(
            verticalArrangement = Arrangement.Center
        ) {
            Text(
-               text = displayUsernameUIState.username?:"",
+               modifier = Modifier.testTag("DisplayUsername"),
+               text = username,
                style = TextStyle(
                    fontSize = 22.sp
                ),
@@ -70,6 +83,7 @@ fun DisplayUsernameScreen(
                modifier = Modifier.height(16.dp)
            )
            OutlinedTextField(
+               modifier = Modifier.testTag("enter username"),
                value = text ,
                onValueChange = { input ->
                    text = input
@@ -84,10 +98,11 @@ fun DisplayUsernameScreen(
                modifier = Modifier.height(16.dp)
            )
            Button(
+               modifier = Modifier.testTag("SaveButton"),
                onClick = {
                    Log.e("username", "see status of isvalid:-  ${isValid}")
                    if (!isValid) {
-                       displayUserNameViewModel.saveUsername(text)
+                       onClickSaveUsername(text)
                        scope.launch {
                            snackbarHostState.showSnackbar(context.getString(R.string.username_saved))
                        }
