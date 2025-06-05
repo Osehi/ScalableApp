@@ -6,8 +6,9 @@ import javax.inject.Inject
 
 class GetUsernameUseCase @Inject constructor(
     private val displayUserNameRepository: DisplayUserNameRepository
-) {
-    operator fun invoke(): Flow<String?> {
+) : GetUsernameUseCaseInterface{
+    override fun invoke(): Flow<String?> {
         return displayUserNameRepository.getUsername()
     }
+
 }

@@ -91,4 +91,7 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.51.1")
 
+    // coroutine testing
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+
 }

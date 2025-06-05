@@ -5,8 +5,9 @@ import javax.inject.Inject
 
 class SaveUsernameUseCase @Inject constructor(
     private val displayUserNameRepository: DisplayUserNameRepository
-) {
-    suspend operator fun invoke(username: String) {
+): SaveUsernameUseCaseInterface {
+    override suspend fun saveUsername(username: String) {
         displayUserNameRepository.saveUsername(username)
     }
+
 }
