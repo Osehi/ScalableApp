@@ -94,4 +94,7 @@ dependencies {
     // coroutine testing
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 
+    // turbine to test flow
+    testImplementation("app.cash.turbine:turbine:1.2.0")
+
 }

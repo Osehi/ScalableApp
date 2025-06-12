@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.polishnet.displayusername.domain.usecase.GetUsernameUseCase
+import com.polishnet.displayusername.domain.usecase.GetUsernameUseCaseInterface
 import com.polishnet.displayusername.domain.usecase.SaveUsernameUseCase
+import com.polishnet.displayusername.domain.usecase.SaveUsernameUseCaseInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DisplayUserNameViewModel @Inject constructor(
-    private val getUsernameUseCase: GetUsernameUseCase,
-    private val saveUsernameUseCase: SaveUsernameUseCase
+    private val getUsernameUseCase: GetUsernameUseCaseInterface,
+    private val saveUsernameUseCase: SaveUsernameUseCaseInterface
 ): ViewModel() {
 
     // save username action
@@ -26,7 +28,6 @@ class DisplayUserNameViewModel @Inject constructor(
         // receives the username and save to preference
         viewModelScope.launch {
             saveUsernameUseCase(username)
-            Log.e("storage", "saved value in viewmodel is ${username}")
         }
     }
 

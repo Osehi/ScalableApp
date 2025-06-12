@@ -1,11 +1,12 @@
 package com.polishnet.displayusername
 
+import com.polishnet.displayusername.domain.usecase.GetUsernameUseCaseInterface
 import kotlinx.coroutines.flow.Flow
 
 class FakeGetUsernameUseCase(
     private  val fakeDisplayUsernameRepository: FakeDisplayUsernameRepository
-) {
-    operator fun invoke(): Flow<String?> {
+) : GetUsernameUseCaseInterface{
+    override operator fun invoke(): Flow<String?> {
         return fakeDisplayUsernameRepository.getUsername()
     }
 }
