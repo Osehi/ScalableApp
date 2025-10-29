@@ -5,11 +5,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.room.Room
 import com.polishnet.displayusername.data.DisplayUserNameRepositoryImpl
 import com.polishnet.displayusername.data.DisplayUsernamePreferenceLocalDataSource
 import com.polishnet.displayusername.data.Preference
 import com.polishnet.displayusername.data.PreferenceConstant.DATASTORE_NAME
 import com.polishnet.displayusername.data.PreferenceConstant.PREFERENCE_NAME
+import com.polishnet.displayusername.data.room.AppDatabase
+import com.polishnet.displayusername.data.room.UsernameDao
 import com.polishnet.displayusername.domain.DisplayUserNameRepository
 import dagger.Module
 import dagger.Provides
@@ -52,4 +55,15 @@ object NetworkModule {
     fun provideDisplayUserNameRepository(displayUsernamePreferenceLocalDataSource: DisplayUsernamePreferenceLocalDataSource):DisplayUserNameRepository {
         return DisplayUserNameRepositoryImpl(displayUsernamePreferenceLocalDataSource)
     }
+    /**
+     * provide Room Database
+     */
+    @Provides
+    @Singleton
+    fun provideDatabase(appContext: Context) : AppDatabase {
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "username_db").build()
+    }
+
+    @Provides
+    fun provideUsernameDao(db: AppDatabase): UsernameDao = db.usernameDao()
 }
