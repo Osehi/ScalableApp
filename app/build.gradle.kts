@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -46,6 +47,7 @@ android {
 dependencies {
     testImplementation(libs.hilt.android.testing)
     val lifecycle_version = "2.8.7"
+    val room_version = "2.8.3"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -95,5 +97,11 @@ dependencies {
     // Hilt for instrumentation testingandroidTestImplementation("com.google.dagger:hilt-android-testing:2.56.2")
     // ...with Kotlin.
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.56.2")
+    // Room
+    implementation("androidx.room:room-runtime:$room_version")
+    // ksp for Room
+    ksp("androidx.room:room-compiler:2.5.0")
+
+
 
 }
