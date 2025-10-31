@@ -33,7 +33,7 @@ class DisplayUserNameViewModel @Inject constructor(
     // display username
     val displayUsername: StateFlow<DisplayUsernameState> = getUsernameUseCase()
         .map {
-            username -> DisplayUsernameState(username = username?: "")
+            username -> DisplayUsernameState(username = username?.myUsername?: "")
         }
         .stateIn(
             viewModelScope,

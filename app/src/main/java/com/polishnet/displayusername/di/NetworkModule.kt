@@ -64,7 +64,7 @@ object NetworkModule {
      */
     @Provides
     @Singleton
-    fun provideDatabase(appContext: Context) : AppDatabase {
+    fun provideDatabase(@ApplicationContext appContext: Context) : AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "username_db").build()
     }
 
