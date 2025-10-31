@@ -12,8 +12,11 @@ import com.polishnet.displayusername.data.Preference
 import com.polishnet.displayusername.data.PreferenceConstant.DATASTORE_NAME
 import com.polishnet.displayusername.data.PreferenceConstant.PREFERENCE_NAME
 import com.polishnet.displayusername.data.room.AppDatabase
+import com.polishnet.displayusername.data.room.DisplayUsernameRoomLocalDataSource
+import com.polishnet.displayusername.data.room.DisplayUsernameRoomRepositoryImpl
 import com.polishnet.displayusername.data.room.UsernameDao
 import com.polishnet.displayusername.domain.DisplayUserNameRepository
+import com.polishnet.displayusername.domain.DisplayUsernameRoomRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +58,7 @@ object NetworkModule {
     fun provideDisplayUserNameRepository(displayUsernamePreferenceLocalDataSource: DisplayUsernamePreferenceLocalDataSource):DisplayUserNameRepository {
         return DisplayUserNameRepositoryImpl(displayUsernamePreferenceLocalDataSource)
     }
+
     /**
      * provide Room Database
      */
@@ -65,5 +69,18 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideUsernameDao(db: AppDatabase): UsernameDao = db.usernameDao()
+
+    @Provides
+    @Singleton
+    fun provideDisplayUserRoomLocalDataSource(usernameDao: UsernameDao): DisplayUsernameRoomLocalDataSource {
+        return DisplayUsernameRoomLocalDataSource(usernameDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDisplayUsernameRoomRepository(displayUsernameRoomLocalDataSource: DisplayUsernameRoomLocalDataSource): DisplayUsernameRoomRepository {
+        return DisplayUsernameRoomRepositoryImpl(displayUsernameRoomLocalDataSource)
+    }
 }
