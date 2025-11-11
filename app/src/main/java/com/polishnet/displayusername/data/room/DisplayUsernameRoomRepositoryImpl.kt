@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class DisplayUsernameRoomRepositoryImpl @Inject constructor(
     private val displayUsernameRoomLocalDataSource: DisplayUsernameRoomLocalDataSource
-):DisplayUsernameRoomRepository {
+): DisplayUsernameRoomRepository{
     override fun getUsername(): Flow<UsernameEntity> {
         return displayUsernameRoomLocalDataSource.getUsername()
     }
@@ -14,4 +14,5 @@ class DisplayUsernameRoomRepositoryImpl @Inject constructor(
     override suspend fun saveUsername(username: String) {
         displayUsernameRoomLocalDataSource.saveUsername(username)
     }
+
 }
