@@ -11,6 +11,6 @@ interface UsernameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMyUsername(myUsername: UsernameEntity)
 
-    @Query("SELECT * FROM username LIMIT 1")
+    @Query("SELECT * FROM username ORDER BY id DESC LIMIT 1")
     fun getSavedUsername(): Flow<UsernameEntity>
 }
